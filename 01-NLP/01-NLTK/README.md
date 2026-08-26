@@ -73,13 +73,44 @@ Example: `examples/03_stemming.py` tokenizes a short text and then stems each wo
 
 `PorterStemmer` does not need an extra data download. This example still uses `word_tokenize`, so you need the same `punkt_tab` data as in the tokenization example.
 
+## POS tagging
+
+POS means part of speech. Tagging assigns a label to each word, such as noun, verb, or adjective.
+
+This helps later when we want to know *how* a word is used, not only what the word is. NLTK tags look like `NN` (noun), `VB` (verb), `JJ` (adjective), and `DT` (determiner). I do not need to memorize all of them at once.
+
+Example: `examples/04_pos_tagging.py` tokenizes a short sentence and then tags each word.
+
+### NLTK data for POS tagging
+
+`pos_tag` needs a trained tagger. Current NLTK versions use `averaged_perceptron_tagger_eng`. You still need `punkt_tab` for `word_tokenize`.
+
+```
+python -m nltk.downloader averaged_perceptron_tagger_eng
+```
+
+If that fails on an older NLTK version, try:
+
+```
+python -m nltk.downloader averaged_perceptron_tagger
+```
+
+## Frequency distribution
+
+A frequency distribution counts how often each word appears in the text.
+
+After tokenization, we can see which tokens show up the most. Punctuation is counted too, because it is also a token.
+
+Example: `examples/05_frequency_distribution.py` tokenizes a short text and prints word counts with NLTK's `FreqDist`.
+
+### NLTK data for frequency distribution
+
+`FreqDist` does not need an extra download. This example still uses `word_tokenize`, so you need `punkt_tab`.
+
 ## What I understood
 
-Learning in progress — I will add my understanding after practicing the example.
+Learning in progress — I will add my understanding after practicing the examples.
 
 ## Next topics
 
-I plan to explore:
-
-- POS tagging
-- Frequency distribution
+I will add more NLTK topics as I continue.
