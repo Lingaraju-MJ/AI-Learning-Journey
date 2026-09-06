@@ -113,4 +113,6 @@ Learning in progress — I will add my understanding after practicing the exampl
 
 ## Next topics
 
-I will add more NLTK topics as I continue.
+I started text representation next. This week I am doing n-grams and Bag of Words.
+
+See `../02-Text-Representation/`.
