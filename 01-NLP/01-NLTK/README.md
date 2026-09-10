@@ -113,6 +113,6 @@ Learning in progress — I will add my understanding after practicing the exampl
 
 ## Next topics
 
-I started text representation next. This week I am doing n-grams and Bag of Words.
+I moved on to text representation, then word embeddings.
 
-See `../02-Text-Representation/`.
+See `../02-Text-Representation/` and `../03-Word-Embeddings/`.
