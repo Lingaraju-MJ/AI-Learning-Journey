@@ -4,7 +4,7 @@ I am learning how to turn text into numbers.
 
 In the NLTK folder I split text, removed stopwords, stemmed words, and counted them. That helped me see the words. A model still cannot read a sentence the way I do. It needs numbers.
 
-Last week I did n-grams and Bag of Words. This week I did TF-IDF, then started word embeddings.
+Last week I did n-grams, Bag of Words, and TF-IDF. Word embeddings are in the next folder.
 
 I am using small Python examples, one idea at a time.
 
@@ -65,8 +65,4 @@ Learning in progress — I will add my notes after I run the examples.
 
 ## Next week
 
-I moved on to word embeddings in this same week. CBOW and skip-gram are there too.
-
-See `../03-Word-Embeddings/`.
-
-After that, next week is Word2Vec training, including a small from-scratch example and AvgWord2Vec.
+Word embeddings are in `../03-Word-Embeddings/`. This week I am doing Word2Vec and AvgWord2Vec there.

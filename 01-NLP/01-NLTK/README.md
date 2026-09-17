@@ -113,6 +113,6 @@ Learning in progress — I will add my understanding after practicing the exampl
 
 ## Next topics
 
-I moved on to text representation, then word embeddings.
+I moved on to text representation, then word embeddings. This week I am doing Word2Vec in that folder.
 
 See `../02-Text-Representation/` and `../03-Word-Embeddings/`.

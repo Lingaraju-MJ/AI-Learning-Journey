@@ -4,15 +4,15 @@ Bag of Words and TF-IDF give each word its own column. `"nlp"` and `"nltk"` are 
 
 A word embedding is a short list of numbers for each word. Words with a similar meaning should end up close to each other.
 
-This week I am only learning the idea:
+Last week I learned the idea:
 
 - what a word embedding looks like
 - CBOW
 - Skip-gram
 
-I am not training a model yet. Next week I will do Word2Vec, train a small model, and look at AvgWord2Vec.
+This week I am training a tiny Word2Vec model myself, then using AvgWord2Vec.
 
-I am using small Python examples, one idea at a time. No extra libraries for these three files.
+I am using small Python examples, one idea at a time. No extra libraries. gensim did not install on my Python version, so I wrote a small from-scratch example instead of calling a library.
 
 ## Word embedding
 
@@ -48,10 +48,32 @@ That is why skip-gram makes more training pairs than CBOW. One middle word becom
 
 Example: `examples/03_skipgram.py` uses the same sentence and window as the CBOW example, so I can compare them.
 
+## Word2Vec
+
+Word2Vec is the model. CBOW and skip-gram are the two ways it can learn.
+
+I am using skip-gram: from one word, guess the nearby words. Each word starts as random numbers. When two words sit next to each other, I move their numbers a little closer.
+
+I used two groups of sentences. NLP words keep showing up together. Fruit words keep showing up together. After training, `nlp` should be closer to `nltk` than to `apple`.
+
+This is not the real neural-net Word2Vec. It is the same idea on a tiny set of sentences, so I can see the vectors change.
+
+Example: `examples/04_word2vec.py`
+
+## AvgWord2Vec
+
+Word2Vec gives a vector to each word. Most of the time I care about a whole sentence.
+
+AvgWord2Vec is just the average of the word vectors in that sentence.
+
+`"I like NLP"` and `"I like NLTK"` should end up close. `"apple is fruit"` should sit somewhere else.
+
+Example: `examples/05_avg_word2vec.py`
+
 ## What I understood
 
 Learning in progress — I will add my notes after I run the examples.
 
 ## Next week
 
-Word2Vec (this is the model that uses CBOW or skip-gram), training a small Word2Vec model, and AvgWord2Vec.
+I will pick the next NLP topic after Word2Vec. FastText is one option. A small text classifier is another.
