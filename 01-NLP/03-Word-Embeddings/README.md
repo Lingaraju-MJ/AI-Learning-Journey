@@ -56,9 +56,19 @@ I am using skip-gram: from one word, guess the nearby words. Each word starts as
 
 I used two groups of sentences. NLP words keep showing up together. Fruit words keep showing up together. After training, `nlp` should be closer to `nltk` than to `apple`.
 
-This is not the real neural-net Word2Vec. It is the same idea on a tiny set of sentences, so I can see the vectors change.
+That file only slides two vectors toward each other. It does not actually guess the next word.
 
 Example: `examples/04_word2vec.py`
+
+## Training step
+
+The hidden layer is the word's own vector. I look up `nlp`, that list of numbers is the hidden layer, then I score every word and pick the highest as the guess.
+
+First try, with `nlp` in, the guess was `eat`. I wanted `like`. The numbers barely move on one nudge. After a few passes, `nlp` guesses `like` and `apple` guesses `eat`.
+
+`nlp` and `nltk` both have to guess `like`, so they end up closer. `nlp` and `apple` move apart.
+
+Example: `examples/06_word2vec_training.py`
 
 ## AvgWord2Vec
 
@@ -70,10 +80,20 @@ AvgWord2Vec is just the average of the word vectors in that sentence.
 
 Example: `examples/05_avg_word2vec.py`
 
+The average has two holes.
+
+Word order is gone. `dog bites man` and `man bites dog` both come out as `[0.4, 0.37, 0.4]`. Distance is `0.0`.
+
+A common word counts the same as a real one. `nlp` is `[0.9, 0.2, 0.1]`. `nlp is` is already `[0.6, 0.25, 0.2]`. `is is is nlp` is `[0.45, 0.27, 0.25]`, closer to `is` than to `nlp`.
+
+Example: `examples/07_avg_word2vec_limits.py`
+
 ## What I understood
 
-Learning in progress — I will add my notes after I run the examples.
+The training step is a guess. First guess for `nlp` was `eat`, not `like`. After a few passes it gets `like`, and `nlp` moves closer to `nltk` because both are trying to guess the same nearby word.
 
-## Next week
+AvgWord2Vec is only an average, so order does not matter and filler words pull as hard as the word I care about.
 
-I will pick the next NLP topic after Word2Vec. FastText is one option. A small text classifier is another.
+## Next
+
+Word2Vec and AvgWord2Vec are enough for now. Attention on one sentence is in `../04-Transformers/`.
