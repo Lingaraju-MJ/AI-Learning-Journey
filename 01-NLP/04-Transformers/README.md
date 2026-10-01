@@ -24,10 +24,24 @@ I wrote the numbers so `it` is looking for something like `dog`.
 
 Example: `examples/01_attention.py`
 
+## Query, key, and value from the word vector
+
+In the first file I typed those three lists myself. Here each one is the word vector dotted with a small weight list.
+
+Same sentence: `it saw dog`
+
+`it` is `[1.0, 0.0]`. Dotted with the two query weights it becomes `[0.0, 1.0]`. `dog`'s key comes out as `[0.0, 2.0]`. Those line up, so the score is `2.0`. After softmax, `it` puts `0.79` on `dog`. The mixed vector is `[0.16, 0.79]`, mostly `dog`.
+
+The value weights just copy the word vector through. `it`'s value is still `[1.0, 0.0]`.
+
+Example: `examples/02_qkv_from_word.py`
+
 ## What I understood
 
 Attention is a weighted mix. The word does not get replaced by one other word. It keeps a bit of everyone, more from the word with the higher score.
 
+Query, key, and value are not a second embedding I invent. They are the same word vector, passed through three small weight lists.
+
 ## Next
 
-The query, key, and value here are handwritten. Next I want to see how those three lists are made from the word vector.
+The scores here are used raw. Next I want to divide them by the square root of the vector length before the softmax. That is the "scaled" part of scaled dot-product attention.
