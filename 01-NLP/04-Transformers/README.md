@@ -36,12 +36,24 @@ The value weights just copy the word vector through. `it`'s value is still `[1.0
 
 Example: `examples/02_qkv_from_word.py`
 
+## Scaled scores
+
+The last file used the raw dot. A longer vector makes those dots big, and softmax then gives almost everything to one word.
+
+I divide the score by the square root of the vector length. Here the length is 2, so the divisor is about 1.41. `dog` goes from 2.0 to 1.41. Attention on `dog` goes from 0.79 to 0.67. `it` and `saw` each go from 0.11 to 0.16.
+
+To see it more clearly I also tried a fake score of 8 with length 16. Raw softmax is about `[0.0, 0.0, 1.0]`. After dividing by 4 it is `[0.11, 0.11, 0.79]`. The other words are still in the mix.
+
+Example: `examples/03_scaled_attention.py`
+
 ## What I understood
 
 Attention is a weighted mix. The word does not get replaced by one other word. It keeps a bit of everyone, more from the word with the higher score.
 
 Query, key, and value are not a second embedding I invent. They are the same word vector, passed through three small weight lists.
 
+Dividing by the square root keeps one large dot from taking the whole softmax.
+
 ## Next
 
-The scores here are used raw. Next I want to divide them by the square root of the vector length before the softmax. That is the "scaled" part of scaled dot-product attention.
+The mixed vector replaces the word. Next I want to add it back onto the original word vector, instead of throwing the original away.
