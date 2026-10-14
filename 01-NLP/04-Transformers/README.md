@@ -54,6 +54,32 @@ Query, key, and value are not a second embedding I invent. They are the same wor
 
 Dividing by the square root keeps one large dot from taking the whole softmax.
 
+The later files keep that same idea and add the rest of one small block: add the mix back, mark the word's place, run a tiny map, then look a second time.
+
+## Add the mix back
+
+The mixed vector for `it` is `[0.25, 0.67]`. Adding it onto `[1.0, 0.0]` gives `[1.25, 0.67]`. The word is still itself, and it also carries some of `dog`.
+
+Example: `examples/04_add_back.py`
+
+## Position
+
+`it` at the start and `it` at the end were the same vector. I add a small list for the place. Start stays `[1.0, 0.0]`. The end becomes `[1.2, 0.4]`.
+
+Example: `examples/05_position.py`
+
+## A small map after the mix
+
+The added-back vector goes through another tiny weight list. `[1.25, 0.67]` becomes `[1.25, 1.34]`. A negative number is wiped to 0. Attention did not do that.
+
+Example: `examples/06_feed_forward.py`
+
+## A second look
+
+I add the mix back, then run the same look again. `it` goes `[1.0, 0.0]`, then `[1.25, 0.67]`, then `[2.08, 1.62]`. One mix was not the end.
+
+Example: `examples/07_second_pass.py`
+
 ## Next
 
-The mixed vector replaces the word. Next I want to add it back onto the original word vector, instead of throwing the original away.
+These are still one sentence and made-up weights. Next I want two mixes side by side, so the word can look for two different things at once.
