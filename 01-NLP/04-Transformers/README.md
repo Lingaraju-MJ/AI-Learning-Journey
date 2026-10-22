@@ -2,7 +2,9 @@
 
 Word2Vec gives each word one vector and leaves it there. A transformer lets each word look at the other words in the sentence and mix a bit of them in.
 
-This file is only that mix. One sentence. No layers, no training.
+This folder is still one sentence and made-up weights. No training.
+
+Last week I did one mix, then add-back, position, a small map, and a second look. This week I run two mixes at once, hide a word with a mask, then walk one small block in order.
 
 ## Attention
 
@@ -80,6 +82,37 @@ I add the mix back, then run the same look again. `it` goes `[1.0, 0.0]`, then `
 
 Example: `examples/07_second_pass.py`
 
+## Two heads
+
+One mix has to pick. Two mixes can look for two different things at the same time.
+
+Head 1 is the old `it` → `dog` look. Head 2 is written so `it` looks at `saw` instead. I print both, then stick the two mixed lists into one longer list.
+
+That longer list is why people say multi-head. Nothing is trained. I just typed a second query.
+
+Example: `examples/08_two_heads.py`
+
+## Mask
+
+Sometimes a word should not count. Padding is like that. A later word is like that if I am guessing the next word.
+
+I do not delete `dog`. I give it a score of `-100` so softmax almost skips it. Compare that with the same numbers and no mask. `dog` is still in the sentence. It just gets almost no weight.
+
+Example: `examples/09_mask.py`
+
+## One small block
+
+The pieces from last week plus the two heads, in one walk for `it`:
+
+1. two heads
+2. stick the mixes together
+3. shrink back to two numbers so I can add them onto `it`
+4. the tiny map that wipes a negative
+
+That is one encoder-style step. The next word would do the same walk.
+
+Example: `examples/10_one_block.py`
+
 ## Next
 
-These are still one sentence and made-up weights. Next I want two mixes side by side, so the word can look for two different things at once.
+These are still one sentence and made-up weights. Next I could look at a tokenizer, or a tiny real model, instead of typing the numbers myself.
