@@ -4,7 +4,9 @@ Word2Vec gives each word one vector and leaves it there. A transformer lets each
 
 This folder is still one sentence and made-up weights. No training.
 
-Last week I did one mix, then add-back, position, a small map, and a second look. This week I run two mixes at once, hide a word with a mask, then walk one small block in order.
+Last week I ran two mixes, hid a word with a mask, then walked one encoder-style block. This week I split encoder and decoder, then let a decoder word look at the encoder.
+
+I am reading The Illustrated Transformer while I do this: https://jalammar.github.io/illustrated-transformer/
 
 ## Attention
 
@@ -109,10 +111,50 @@ The pieces from last week plus the two heads, in one walk for `it`:
 3. shrink back to two numbers so I can add them onto `it`
 4. the tiny map that wipes a negative
 
-That is one encoder-style step. The next word would do the same walk.
+That is one encoder-style step. The next word would do the same walk. This week I treat that file as the encoder.
 
 Example: `examples/10_one_block.py`
 
+## Encoder vs decoder
+
+The encoder already has the whole sentence. Every word can look at every word. That is last week's block.
+
+The decoder writes the next word. I have only written `it saw`. `dog` is not there yet, so a decoder word cannot look at it.
+
+- encoder `it`, `saw`, `dog` each look at `it, saw, dog`
+- decoder `it` looks at `it`
+- decoder `saw` looks at `it, saw`
+- decoder `dog` is not written yet
+
+The mask from `09_mask.py` is what the decoder uses on its own side.
+
+Example: `examples/11_encoder_vs_decoder.py`
+
+## Cross-attention
+
+Self-attention keeps query, key, and value in the same sentence. Cross-attention does not.
+
+The decoder word `it` is looking for something. The encoder words are what it can look at. Query comes from the decoder. Key and value come from the encoder.
+
+Same numbers as file 01, so the mix still leans toward `dog`: scores `0.2`, `0.0`, `1.0`, attention `0.25`, `0.20`, `0.55`, mixed `[0.52, 0.3]`. The only change is which side each list comes from.
+
+Example: `examples/12_cross_attention.py`
+
+## One decoder block
+
+Last week `10_one_block.py` was the encoder walk for `it`. Here I walk decoder `saw`.
+
+I already wrote `it`. Now I am on `saw`.
+
+1. decoder look: `saw` can see `it` and itself, not `dog`. Attention is `0.27` and `0.73`. Mixed `[0.03, 0.61]`.
+2. encoder look: same cross-attention as the last file. `dog` gets `0.55`. Mixed `[0.52, 0.3]`.
+3. add both mixes onto `saw` `[0.5, 0.0]` -> `[1.05, 0.91]`
+4. the tiny map -> `[1.05, 1.82]`
+
+That is one decoder-style step.
+
+Example: `examples/13_decoder_block.py`
+
 ## Next
 
-These are still one sentence and made-up weights. Next I could look at a tokenizer, or a tiny real model, instead of typing the numbers myself.
+These are still one sentence and made-up weights. Next I can watch Krish's architecture video and skim the paper. Layer norm is still missing. After that, a tokenizer or a tiny real model.

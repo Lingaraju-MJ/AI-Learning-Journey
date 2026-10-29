@@ -1,6 +1,6 @@
 import math
 
-# one small block for it, in order:
+# one small encoder block for it, in order:
 # two heads, stick them together, shrink back to 2 numbers,
 # add onto the original word, then the tiny map from last week.
 
@@ -126,4 +126,4 @@ print("\nstuck together ->", [round(n, 2) for n in joined])
 print("shrunk to 2    ->", [round(n, 2) for n in back])
 print("added back     ->", [round(n, 2) for n in kept])
 print("after the map  ->", [round(n, 2) for n in out])
-print("that is one block. next word would do the same walk.")
+print("that is one encoder block. next word would do the same walk.")
