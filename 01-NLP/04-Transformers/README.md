@@ -4,9 +4,7 @@ Word2Vec gives each word one vector and leaves it there. A transformer lets each
 
 This folder is still one sentence and made-up weights. No training.
 
-Last week I ran two mixes, hid a word with a mask, then walked one encoder-style block. This week I split encoder and decoder, then let a decoder word look at the encoder.
-
-I am reading The Illustrated Transformer while I do this: https://jalammar.github.io/illustrated-transformer/
+Last week I split encoder and decoder, then let a decoder word look at the encoder. This week I add layer norm, then add and norm together.
 
 ## Attention
 
@@ -155,6 +153,26 @@ That is one decoder-style step.
 
 Example: `examples/13_decoder_block.py`
 
+## Layer norm
+
+After I add the mix back, the numbers can get bigger each block. In the second-look file, `it` went `[1.0, 0.0]`, then `[1.25, 0.67]`, then `[2.08, 1.62]`.
+
+Layer norm pulls the list back. I take the mean, shift each number, then divide by the spread.
+
+`[1.25, 0.67]` has mean `0.96` and spread `0.29`. After that it is `[1.0, -1.0]`.
+
+The bigger second-look vector `[2.08, 1.62]` also comes out `[1.0, -1.0]`.
+
+Example: `examples/14_layer_norm.py`
+
+## Add and norm
+
+Add is file 04. Norm is file 14. I add the mix onto the word, then do the same pull-back.
+
+`[1.0, 0.0]` plus `[0.25, 0.67]` is `[1.25, 0.67]`. After the norm it is `[1.0, -1.0]`.
+
+Example: `examples/15_add_and_norm.py`
+
 ## Next
 
-These are still one sentence and made-up weights. Next I can watch Krish's architecture video and skim the paper. Layer norm is still missing. After that, a tokenizer or a tiny real model.
+These are still one sentence and made-up weights. Next I could look at a tokenizer, or a tiny real model, instead of typing the numbers myself.
