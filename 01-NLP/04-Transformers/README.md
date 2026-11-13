@@ -4,7 +4,7 @@ Word2Vec gives each word one vector and leaves it there. A transformer lets each
 
 This folder is still one sentence and made-up weights. No training.
 
-Last week I split encoder and decoder, then let a decoder word look at the encoder. This week I add layer norm, then add and norm together.
+Last week I added layer norm, then add and norm together. This week I turn words into ids, then guess the next word from the last decoder vector.
 
 ## Attention
 
@@ -173,6 +173,30 @@ Add is file 04. Norm is file 14. I add the mix onto the word, then do the same p
 
 Example: `examples/15_add_and_norm.py`
 
+## Tokenizer
+
+Until now I typed the word vectors myself. A tokenizer first turns each word into a number. Then I look that number up in a table.
+
+`it saw dog` becomes ids `0, 1, 2`. Those rows are the same lists I used before: `it` is `[1.0, 0.0]`, `saw` is `[0.5, 0.0]`, `dog` is `[0.0, 1.0]`.
+
+The model never sees the letters. It only sees the ids.
+
+Example: `examples/16_tokenizer.py`
+
+## Next word
+
+The decoder just finished `it saw`. File 13 left `saw` as `[1.05, 1.82]`. That list still has to become a word.
+
+I score each vocab row, then softmax.
+
+- `it` 1.05
+- `saw` 0.53
+- `dog` 1.82
+
+After softmax that is `0.27`, `0.16`, `0.58`. The guess is `dog`.
+
+Example: `examples/17_next_word.py`
+
 ## Next
 
-These are still one sentence and made-up weights. Next I could look at a tokenizer, or a tiny real model, instead of typing the numbers myself.
+The boxes from the paper are in place, and I can turn a vector back into a word. Next I could try a tiny real model, instead of this one sentence.
